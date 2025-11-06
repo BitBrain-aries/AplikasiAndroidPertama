@@ -14,16 +14,21 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-        val inputUsername = findViewById<EditText>(R.id.editTextUsername)
+        val inputusername = findViewById<EditText>(R.id.editTextUsername)
         val inputPassword = findViewById<EditText>(R.id.editTextPassword)
 
         val buttonSubmit = findViewById<Button>(R.id.buttonSubmit)
+
         buttonSubmit.setOnClickListener {
-            var username = inputUsername.text.toString()
+            var username = inputusername.text.toString()
             var password = inputPassword.text.toString()
 
-            if (username.isEmpty() || password.isEmpty()) {
-
+            if (username.isEmpty()) {
+                Toast.makeText(
+                    this, "Username/Password tidak boleh kosong",
+                    Toast.LENGTH_LONG
+                )
+                    .show()
             } else {
                 Toast.makeText(
                     this, "Proses login..",
@@ -31,8 +36,6 @@ class MainActivity : AppCompatActivity() {
                 )
                     .show()
             }
-
-        }
 
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
