@@ -1,5 +1,6 @@
 package com.example.aplikasiandroidpertama
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -35,6 +36,14 @@ class MainActivity : AppCompatActivity() {
                     Toast.LENGTH_LONG
                 )
                     .show()
+            }
+
+            val buttonDaftar = findViewById<Button>(R.id.buttonDaftar)
+
+            buttonDaftar.setOnClickListener {
+                val intentPindah = Intent(this, PendaftaranActivity :: class.java)
+                startActivity(intentPindah)
+                finish()
             }
 
 

@@ -86,7 +86,7 @@
         android:textColorLink="#050404" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/buttonDaftar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="#88BC35"
