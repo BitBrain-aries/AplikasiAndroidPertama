@@ -15,45 +15,48 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
+
+        // Inisialisasi Views
         val inputusername = findViewById<EditText>(R.id.editTextUsername)
         val inputPassword = findViewById<EditText>(R.id.editTextPassword)
-
         val buttonSubmit = findViewById<Button>(R.id.buttonSubmit)
+        val buttonDaftar = findViewById<Button>(R.id.buttonDaftar) // Pindahkan inisialisasi di sini
 
+        // Listener untuk tombol KIRIM (Login)
         buttonSubmit.setOnClickListener {
-            var username = inputusername.text.toString()
-            var password = inputPassword.text.toString()
+            val username = inputusername.text.toString()
+            val password = inputPassword.text.toString()
 
-            if (username.isEmpty()) {
+            if (username.isEmpty() || password.isEmpty()) { // Tambahkan cek untuk password juga
                 Toast.makeText(
-                    this, "Username/Password tidak boleh kosong",
+                    this,
+                    "Username/Password tidak boleh kosong",
                     Toast.LENGTH_LONG
-                )
-                    .show()
+                ).show()
             } else {
                 Toast.makeText(
-                    this, "Proses login..",
+                    this,
+                    "Proses login..",
                     Toast.LENGTH_LONG
-                )
-                    .show()
+                ).show()
+                // Lakukan logika login di sini
             }
+        }
 
-            val buttonDaftar = findViewById<Button>(R.id.buttonDaftar)
-
-            buttonDaftar.setOnClickListener {
-                val intentPindah = Intent(this, PendaftaranActivity :: class.java)
-                startActivity(intentPindah)
-                finish()
-            }
-
-
-            ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-                val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-                v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-                insets
+        // Listener untuk tombol DAFTAR
+        // Pindahkan di luar buttonSubmit.setOnClickListener
+        buttonDaftar.setOnClickListener {
+            val intentPindah = Intent(this, PendaftaranActivity :: class.java)
+            startActivity(intentPindah)
+            // finish() // Hati-hati menggunakan finish() di sini, karena akan menutup MainActivity
+        }
 
 
-            }
+        // Window Insets Handler (tetap di dalam onCreate)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
         }
     }
 }
