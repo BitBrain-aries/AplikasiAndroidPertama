@@ -17,8 +17,12 @@
         android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="48dp"
+        android:layout_marginLeft="35px"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="35px"
+        android:layout_marginBottom="35dp"
         android:text="Log In"
+        android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="36sp"
         android:textStyle="bold" />
@@ -27,33 +31,36 @@
         android:id="@+id/textViewUsernameTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginBottom="5dp"
         android:text="Username"
         android:textColor="#00FFFF"
         android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="8dp" />
+        android:textStyle="bold" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/input_username_layout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        app:boxStrokeColor="#00FFFF"
-        app:hintTextColor="#00FFFF"
-        app:boxStrokeWidth="2dp"
-        app:boxCornerRadiusTopStart="12dp"
-        app:boxCornerRadiusTopEnd="12dp"
-        app:boxCornerRadiusBottomStart="12dp"
-        app:boxCornerRadiusBottomEnd="12dp"
+        android:layout_marginBottom="15dp"
+        android:textColorHint="#AAAAAA"
         app:boxBackgroundColor="#1A1A3A"
-        android:textColorHint="#AAAAAA">
+        app:boxCornerRadiusBottomEnd="12dp"
+        app:boxCornerRadiusBottomStart="12dp"
+        app:boxCornerRadiusTopEnd="12dp"
+        app:boxCornerRadiusTopStart="12dp"
+        app:boxStrokeColor="#00FFFF"
+        app:boxStrokeWidth="2dp"
+        app:hintTextColor="#00FFFF">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editTextUsername"
             android:layout_width="match_parent"
-            android:background="@drawable/neon_input_background"
             android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:background="@drawable/neon_input_background"
             android:hint="Masukan username"
             android:inputType="text"
             android:textColor="#FFFFFF" />
@@ -63,34 +70,37 @@
         android:id="@+id/textViewPasswordTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginBottom="5dp"
         android:text="Password"
         android:textColor="#00FFFF"
         android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="8dp" />
+        android:textStyle="bold" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/input_password_layout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        app:boxStrokeColor="#00FFFF"
-        app:hintTextColor="#00FFFF"
-        app:boxStrokeWidth="2dp"
-        app:passwordToggleEnabled="true"
-        app:passwordToggleTint="#00FFFF"
-        app:boxCornerRadiusTopStart="12dp"
-        app:boxCornerRadiusTopEnd="12dp"
-        app:boxCornerRadiusBottomStart="12dp"
-        app:boxCornerRadiusBottomEnd="12dp"
+        android:layout_marginBottom="5dp"
+        android:textColorHint="#AAAAAA"
         app:boxBackgroundColor="#1A1A3A"
-        android:textColorHint="#AAAAAA">
+        app:boxCornerRadiusBottomEnd="12dp"
+        app:boxCornerRadiusBottomStart="12dp"
+        app:boxCornerRadiusTopEnd="12dp"
+        app:boxCornerRadiusTopStart="12dp"
+        app:boxStrokeColor="#00FFFF"
+        app:boxStrokeWidth="2dp"
+        app:hintTextColor="#00FFFF"
+        app:passwordToggleEnabled="true"
+        app:passwordToggleTint="#00FFFF">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editTextPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
             android:background="@drawable/neon_input_background"
             android:hint="Masukkan password"
             android:inputType="textPassword"
@@ -102,7 +112,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
-        android:layout_marginBottom="40dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="15dp"
         android:text="Lupa Password..?"
         android:textColor="#00FFFF"
         android:textStyle="bold" />
@@ -111,25 +122,29 @@
         android:id="@+id/buttonSubmit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="KIRIM"
+        android:layout_marginStart="35dp"
+        android:layout_marginEnd="35dp"
+        android:layout_marginBottom="12dp"
         android:backgroundTint="#00FFFF"
+        android:paddingVertical="14dp"
+        android:text="KIRIM"
         android:textColor="#0A0A1F"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:paddingVertical="14dp"
-        app:cornerRadius="12dp"
-        android:layout_marginBottom="12dp"/>
+        app:cornerRadius="12dp" />
 
     <Button
         android:id="@+id/buttonDaftar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="DAFTAR"
+        android:layout_marginStart="35dp"
+        android:layout_marginEnd="35dp"
         android:backgroundTint="#1A1A3A"
+        android:paddingVertical="14dp"
+        android:text="DAFTAR"
         android:textColor="#00FFFF"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:paddingVertical="14dp"
-        app:cornerRadius="12dp"/>
+        app:cornerRadius="12dp" />
 
 </LinearLayout>

@@ -11,7 +11,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.isDigitsOnly
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class PendaftaranActivity : AppCompatActivity() {
@@ -95,6 +97,22 @@ class PendaftaranActivity : AppCompatActivity() {
         if (!username.isDigitsOnly()) {
             Toast.makeText(this, "Username harus berupa angka", Toast.LENGTH_LONG).show()
             return
+        }
+
+        //Modifikasi Dimulai disini
+        val userToSave = UserEntity(
+            NamaDepan = namaDepan,
+            NamaBelakang = namaBelakang,
+            Username = username,
+            Email = email
+        )
+
+        val db = AbsenDatabase.getDatabase(this)
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            // Pastikan db adalah instance dari Room Database Anda
+            // dan UserDao().insert() adalah fungsi suspend.
+            db.userDao().insert(userToSave)
         }
 
 

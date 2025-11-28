@@ -18,19 +18,21 @@
 
         <TextView
             android:id="@+id/tvTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:gravity="center"
             android:text="Formulir Pendaftaran"
             android:textColor="#00FFFF"
             android:textSize="28sp"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp" />
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/etUsername"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="35dp"
             android:layout_marginBottom="16dp"
             android:background="@drawable/neon_input_background"
             android:hint="Username"
@@ -42,12 +44,14 @@
 
         <EditText
             android:id="@+id/etEmail"
-            android:hint="Email"
-            android:inputType="textEmailAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="35dp"
             android:layout_marginBottom="16dp"
             android:background="@drawable/neon_input_background"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
             android:padding="12dp"
             android:textColor="#FFFFFF"
             android:textColorHint="#AAAAAA" />
@@ -55,55 +59,63 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="16dp">
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="12dp"
+            android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/etNamaDepan"
-                android:hint="Nama Depan"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="20dp"
+                android:layout_weight="1"
                 android:background="@drawable/neon_input_background"
+                android:hint="Nama Depan"
+                android:inputType="textPersonName"
                 android:padding="12dp"
                 android:textColor="#FFFFFF"
-                android:textColorHint="#AAAAAA"
-                android:inputType="textPersonName" />
+                android:textColorHint="#AAAAAA" />
 
             <EditText
                 android:id="@+id/etNamaBelakang"
-                android:hint="Nama Belakang"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="25dp"
+                android:layout_weight="1"
                 android:background="@drawable/neon_input_background"
+                android:hint="Nama Belakang"
+                android:inputType="textPersonName"
                 android:padding="12dp"
                 android:textColor="#FFFFFF"
-                android:textColorHint="#AAAAAA"
-                android:inputType="textPersonName" />
+                android:textColorHint="#AAAAAA" />
         </LinearLayout>
 
         <EditText
             android:id="@+id/etPassword"
-            android:hint="Password"
-            android:inputType="textPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="35dp"
             android:layout_marginBottom="16dp"
             android:background="@drawable/neon_input_background"
+            android:hint="Password"
+            android:inputType="textPassword"
             android:padding="12dp"
             android:textColor="#FFFFFF"
             android:textColorHint="#AAAAAA" />
 
         <EditText
             android:id="@+id/etUlangPassword"
-            android:hint="Ketik Ulang Password"
-            android:inputType="textPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="35dp"
+            android:layout_marginBottom="25dp"
             android:background="@drawable/neon_input_background"
+            android:hint="Ketik Ulang Password"
+            android:inputType="textPassword"
             android:padding="12dp"
             android:textColor="#FFFFFF"
             android:textColorHint="#AAAAAA" />
@@ -112,7 +124,8 @@
             android:id="@+id/btnKirim"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
+            android:layout_marginStart="35dp"
+            android:layout_marginEnd="35dp"
             android:backgroundTint="#00FFFF"
             android:paddingVertical="14dp"
             android:text="KIRIM"
@@ -123,25 +136,28 @@
 
         <Button
             android:id="@+id/btnBatal"
-            android:text="BATAL"
-            android:textColor="#00FFFF"
-            android:backgroundTint="#1A1A3A"
-            android:textSize="18sp"
-            android:textStyle="bold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="35dp"
+            android:layout_marginEnd="35dp"
             android:layout_marginBottom="16dp"
+            android:backgroundTint="#1A1A3A"
             android:paddingVertical="14dp"
-            app:cornerRadius="12dp"/>
+            android:text="BATAL"
+            android:textColor="#00FFFF"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:cornerRadius="12dp" />
 
         <TextView
             android:id="@+id/tvPesan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
             android:text="Semua field wajib diisi"
             android:textColor="#FF0000"
             android:textSize="14sp"
-            android:gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:textStyle="bold|italic" />
 
     </LinearLayout>
 </ScrollView>
