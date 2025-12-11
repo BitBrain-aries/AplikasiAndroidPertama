@@ -9,50 +9,83 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var userDao: UserDao
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
 
-        // Inisialisasi Views
+        // 1. Inisialisasi Database
+        val db = AbsenDatabase.getDatabase(this)
+        userDao = db.userDao()
+
+        // 2. Inisialisasi Views Lokal
         val inputusername = findViewById<EditText>(R.id.editTextUsername)
         val inputPassword = findViewById<EditText>(R.id.editTextPassword)
         val buttonSubmit = findViewById<Button>(R.id.buttonSubmit)
-        val buttonDaftar = findViewById<Button>(R.id.buttonDaftar) // Pindahkan inisialisasi di sini
+        val buttonDaftar = findViewById<Button>(R.id.buttonDaftar)
 
-        // Listener untuk tombol KIRIM (Login)
+        // 3. Listener untuk tombol KIRIM (Login)
         buttonSubmit.setOnClickListener {
             val username = inputusername.text.toString()
             val password = inputPassword.text.toString()
 
-            if (username.isEmpty() || password.isEmpty()) { // Tambahkan cek untuk password juga
+            if (username.isEmpty() || password.isEmpty()) {
                 Toast.makeText(
                     this,
-                    "Username/Password tidak boleh kosong",
+                    "Username dan Password tidak boleh kosong",
                     Toast.LENGTH_LONG
                 ).show()
-            } else {
-                Toast.makeText(
-                    this,
-                    "Proses login..",
-                    Toast.LENGTH_LONG
-                ).show()
-                // Lakukan logika login di sini
+                return@setOnClickListener
+            }
+
+            lifecycleScope.launch {
+                val user = withContext(Dispatchers.IO) {
+                    userDao.getUserByUsernameAndPassword(username, password)
+                }
+
+                if (user != null) {
+                    // KOREKSI: Menggunakan user.username (asumsi huruf kecil di UserEntity)
+                    Toast.makeText(
+                        this@MainActivity,
+                        "Login berhasil! Selamat datang, ${user.Username}",
+                        Toast.LENGTH_LONG
+                    ).show()
+
+                    val intentDashboard = Intent(this@MainActivity, DashboardActivity::class.java)
+
+                    // KOREKSI: Mengirim ID dengan user.id (asumsi huruf kecil di UserEntity)
+                    intentDashboard.putExtra("USER_ID", user.id)
+
+                    startActivity(intentDashboard)
+                    finish()
+
+                } else {
+                    Toast.makeText(
+                        this@MainActivity,
+                        "Login gagal. Username atau Password salah.",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
             }
         }
 
-        // Listener untuk tombol DAFTAR
-        // Pindahkan di luar buttonSubmit.setOnClickListener
+        // 4. Listener untuk tombol DAFTAR
         buttonDaftar.setOnClickListener {
-            val intentPindah = Intent(this, PendaftaranActivity :: class.java)
+            val intentPindah = Intent(this, PendaftaranActivity::class.java)
             startActivity(intentPindah)
-            // finish() // Hati-hati menggunakan finish() di sini, karena akan menutup MainActivity
         }
 
 
-        // Window Insets Handler (tetap di dalam onCreate)
+        // Window Insets Handler
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)

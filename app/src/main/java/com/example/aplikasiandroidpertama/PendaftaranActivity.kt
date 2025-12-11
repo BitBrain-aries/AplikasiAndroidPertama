@@ -14,19 +14,19 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-
+import kotlinx.coroutines.withContext // Wajib ditambahkan
 
 class PendaftaranActivity : AppCompatActivity() {
 
-    // 1. Deklarasi variabel untuk elemen UI (WAJIB DITAMBAHKAN)
+    // ... (Deklarasi properti tetap sama) ...
     private lateinit var etUsername: EditText
     private lateinit var etEmail: EditText
     private lateinit var etNamaDepan: EditText
     private lateinit var etNamaBelakang: EditText
     private lateinit var etPassword: EditText
     private lateinit var etUlangPassword: EditText
-    private lateinit var btnKirim: Button // Sudah ada di onCreate, tapi diinisialisasi ulang di sini
-    private lateinit var btnBatal: Button // Sudah ada di onCreate, tapi diinisialisasi ulang di sini
+    private lateinit var btnKirim: Button
+    private lateinit var btnBatal: Button
     private lateinit var tvPesan: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,22 +34,15 @@ class PendaftaranActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_pendaftaran)
 
-        // Pindahkan inisialisasi view ke fungsi terpisah
         initializeViews()
-        setupListeners() // Tambahkan listener untuk btnKirim dan btnBatal (reset fields)
+        setupListeners()
 
-        // Hapus: val buttonkirim = findViewById<Button>(R.id.btnKirim)
-        // Hapus: val backlogin = findViewById<Button>(R.id.btnBatal)
-        // btnKirim dan btnBatal sudah diinisialisasi di initializeViews()
-
-        // Listener btnBatal (kembali ke Login) - Dibiarkan di sini agar lebih jelas fungsinya
-        btnBatal.setOnClickListener { // Menggunakan btnBatal yang sudah diinisialisasi
-            val intenLogin = Intent(this, MainActivity::class.java) // Ganti MainActivity::class.java dengan class Login Anda
+        btnBatal.setOnClickListener {
+            val intenLogin = Intent(this, MainActivity::class.java)
             startActivity(intenLogin)
             finish()
         }
 
-        // Atur pesan awal
         tvPesan.text = "Mohon isi semua data pendaftaran."
         tvPesan.setTextColor(resources.getColor(android.R.color.holo_green_dark))
 
@@ -60,10 +53,7 @@ class PendaftaranActivity : AppCompatActivity() {
         }
     }
 
-    // 2. Tambahkan fungsi inisialisasi View
     private fun initializeViews() {
-        // Mendapatkan referensi menggunakan ID yang ada di activity_pendaftaran.xml
-        // PASTIKAN ID DI activity_pendaftaran.xml SAMA DENGAN INI!
         etUsername = findViewById(R.id.etUsername)
         etEmail = findViewById(R.id.etEmail)
         etNamaDepan = findViewById(R.id.etNamaDepan)
@@ -71,22 +61,18 @@ class PendaftaranActivity : AppCompatActivity() {
         etPassword = findViewById(R.id.etPassword)
         etUlangPassword = findViewById(R.id.etUlangPassword)
         btnKirim = findViewById(R.id.btnKirim)
-        btnBatal = findViewById(R.id.btnBatal) // Diinisialisasi ulang
+        btnBatal = findViewById(R.id.btnBatal)
         tvPesan = findViewById(R.id.tvPesan)
     }
 
-    // 3. Tambahkan fungsi setupListeners (hanya untuk btnKirim)
     private fun setupListeners() {
         btnKirim.setOnClickListener {
             handleRegistration()
         }
-        // Listener btnBatal untuk reset field DIHAPUS, karena sudah digunakan untuk navigasi ke Login.
     }
 
-    // 4. Tambahkan fungsi handleRegistration (LOGIKA UTAMA)
     private fun handleRegistration() {
 
-        // Mengambil teks dari field input
         val username = etUsername.text.toString().trim()
         val email = etEmail.text.toString().trim()
         val namaDepan = etNamaDepan.text.toString().trim()
@@ -94,73 +80,70 @@ class PendaftaranActivity : AppCompatActivity() {
         val password = etPassword.text.toString().trim()
         val ulangPassword = etUlangPassword.text.toString().trim()
 
-        if (!username.isDigitsOnly()) {
-            Toast.makeText(this, "Username harus berupa angka", Toast.LENGTH_LONG).show()
-            return
+        // --- 1. VALIDASI DATA (HARUS BERADA PALING ATAS) ---
+
+        if (username.isEmpty() || email.isEmpty() || namaDepan.isEmpty() || namaBelakang.isEmpty() || password.isEmpty() || ulangPassword.isEmpty()) {
+            Toast.makeText(this, "Input Data Masih Kosong", Toast.LENGTH_LONG).show()
+            tvPesan.text = "Gagal: Mohon lengkapi semua field!"
+            tvPesan.setTextColor(resources.getColor(android.R.color.holo_red_dark))
+            return // Hentikan jika kosong
         }
 
-        //Modifikasi Dimulai disini
+        if (!username.isDigitsOnly()) {
+            Toast.makeText(this, "Username harus berupa angka", Toast.LENGTH_LONG).show()
+            return // Hentikan jika bukan angka
+        }
+
+        if (password != ulangPassword) {
+            tvPesan.text = "Gagal: Password dan Konfirmasi Password tidak cocok!"
+            tvPesan.setTextColor(resources.getColor(android.R.color.holo_red_dark))
+            return // Hentikan jika password tidak cocok
+        }
+
+        // --- 2. PENYIMPANAN DATA DAN NAVIGASI (HANYA JIKA VALIDASI LULUS) ---
+
         val userToSave = UserEntity(
             NamaDepan = namaDepan,
             NamaBelakang = namaBelakang,
             Username = username,
-            Email = email
+            Email = email,
+            Password = password,
         )
 
         val db = AbsenDatabase.getDatabase(this)
 
+        // Luncurkan Coroutine untuk Operasi I/O
         lifecycleScope.launch(Dispatchers.IO) {
-            // Pastikan db adalah instance dari Room Database Anda
-            // dan UserDao().insert() adalah fungsi suspend.
-            db.userDao().insert(userToSave)
+
+            // 1. Simpan data dan Dapatkan ID (Long) dari DAO
+            val newUserId = db.userDao().insert(userToSave)
+
+            // Pindah ke Main Thread untuk Update UI dan Navigasi
+            withContext(Dispatchers.Main) {
+
+                // 2. Tampilan Sukses dan Bersihkan Field
+                val namaLengkap = "$namaDepan $namaBelakang"
+                Toast.makeText(this@PendaftaranActivity, "Pendaftaran Sukses! Selamat datang, $namaLengkap", Toast.LENGTH_LONG).show()
+                tvPesan.text = "Pendaftaran Berhasil! Nama Anda: $namaLengkap"
+                tvPesan.setTextColor(resources.getColor(android.R.color.holo_green_dark))
+                clearFields()
+
+                // 3. Kirim ID ke Dashboard (Wajib)
+                val intentPindahDashboardActivity = Intent (this@PendaftaranActivity, DashboardActivity ::class.java)
+
+                // PENTING: Mengirim ID yang benar sebagai Long (tipe data yang dikembalikan DAO)
+                intentPindahDashboardActivity.putExtra("USER_ID", newUserId.toInt())
+
+
+                startActivity(intentPindahDashboardActivity)
+                finish()
+            }
         }
 
-
-
-        // 4a. Validasi: Memastikan SEMUA FIELD terisi (Tidak boleh kosong)
-        if (username.isEmpty() || email.isEmpty() || namaDepan.isEmpty() || namaBelakang.isEmpty() || password.isEmpty() || ulangPassword.isEmpty()) {
-
-            Toast.makeText(this, "Input Data Masih Kosong", Toast.LENGTH_LONG).show()
-
-            tvPesan.text = "Gagal: Mohon lengkapi semua field!"
-            tvPesan.setTextColor(resources.getColor(android.R.color.holo_red_dark))
-
-            return // Menghentikan proses jika ada yang kosong
-        }
-
-        // 4b. Validasi: Password dan Konfirmasi Password harus sama
-        if (password != ulangPassword) {
-            tvPesan.text = "Gagal: Password dan Konfirmasi Password tidak cocok!"
-            tvPesan.setTextColor(resources.getColor(android.R.color.holo_red_dark))
-            return // Menghentikan proses jika password tidak sama
-        }
-
-        // 5. NOTIFIKASI SUKSES (Nama Depan dan Nama Belakang digabung)
-        val namaLengkap = "$namaDepan $namaBelakang"
-        val message = "Pendaftaran Sukses!\nSelamat datang, $namaLengkap"
-
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show() // Menampilkan Notifikasi
-
-        // Menampilkan pesan sukses di TextView
-        tvPesan.text = "Pendaftaran Berhasil! Nama Anda: $namaLengkap"
-        tvPesan.setTextColor(resources.getColor(android.R.color.holo_green_dark))
-
-        val intentPindahDashboardActivity = Intent (this, DashboardActivity ::class.java)
-
-        intentPindahDashboardActivity.putExtra("NAMA_DEPAN", namaDepan)
-        intentPindahDashboardActivity.putExtra( "NAMA_BELAKANG", namaBelakang)
-        intentPindahDashboardActivity. putExtra("Username", username.toInt())
-        intentPindahDashboardActivity.putExtra("EMAIL", email)
-
-        // *** BAGIAN INI YANG HILANG ***
-        startActivity(intentPindahDashboardActivity)
-        finish() // Menutup Pendaftaran Activity agar tidak bisa di-back
-
-        // Mengosongkan field setelah sukses
-        clearFields()
+        // Hapus SEMUA kode navigasi/Toast/clearFields yang ada di luar lifecycleScope.launch()
+        // karena harus menunggu data disimpan terlebih dahulu.
     }
 
-    // 5. Tambahkan fungsi clearFields
     private fun clearFields() {
         etUsername.setText("")
         etEmail.setText("")

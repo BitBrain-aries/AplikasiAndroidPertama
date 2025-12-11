@@ -19,4 +19,6 @@ data class UserEntity (
     val Username : String,
 
     val Email : String,
+
+    val Password : String,
 )

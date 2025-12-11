@@ -4,30 +4,29 @@ import androidx.room.Database
 import androidx.room.Ignore
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.aplikasiandroidpertama.UserDao // Pastikan ini benar
-import com.example.aplikasiandroidpertama.UserEntity // Pastikan ini benar
+import com.example.aplikasiandroidpertama.MIGRATION_1_2
+import com.example.aplikasiandroidpertama.UserDao
+import com.example.aplikasiandroidpertama.UserEntity
 
 // Pastikan UserEntity sudah ada dan benar
-@Database(entities = [UserEntity::class], version = 1, exportSchema = false)
+@Database(entities = [UserEntity::class], version = 2, exportSchema = false)
 abstract class AbsenDatabase : RoomDatabase() {
 
     // Definisikan DAO Anda di sini
-    // Pastikan tipe kembalian adalah UserDao
-    abstract fun userDao(): UserDao // TIDAK PERLU TANDA KURUNG TAMBAHAN () di sini
+    abstract fun userDao(): UserDao
 
     companion object {
         @Volatile
         private var INSTANCE: AbsenDatabase? = null
 
         fun getDatabase(context: Context): AbsenDatabase {
+            // Menggunakan operator Elvis (?:) untuk thread-safe
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     AbsenDatabase::class.java,
                     "aplikasi_absen_db"
-                )
-                    // .fallbackToDestructiveMigration() // Opsional
-                    .build()
+                ).addMigrations(MIGRATION_1_2).build()
 
                 INSTANCE = instance
                 instance
