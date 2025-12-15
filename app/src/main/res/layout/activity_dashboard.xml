@@ -10,11 +10,12 @@
     tools:context=".DashboardActivity">
 
     <LinearLayout
+        android:id="@+id/margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:gravity="center_horizontal"
-        android:paddingTop="20dp">
+        android:orientation="vertical"
+        android:paddingTop="10dp">
 
         <!-- Judul Dashboard -->
         <TextView
@@ -22,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:layout_marginBottom="40dp"
+            android:layout_marginBottom="15dp"
             android:gravity="center"
             android:text="DASHBOARD"
             android:textColor="#00FFFF"
@@ -135,7 +136,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="35dp"
             android:layout_marginEnd="35dp"
-            android:layout_marginBottom="40dp"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/neon_input_background"
             android:orientation="vertical"
             android:paddingHorizontal="16dp"
@@ -159,22 +160,18 @@
                 android:textColor="#FFFFFF"
                 android:textSize="18sp"
                 android:textStyle="normal" />
+
+
         </LinearLayout>
 
-        <!-- Tombol Logout (Gaya Neon Cyan) -->
-        <Button
-            android:id="@+id/btnKeluar"
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragmentContainerView"
+            android:name="com.example.aplikasiandroidpertama.OsmMapFragment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="35dp"
-            android:layout_marginEnd="35dp"
-            android:backgroundTint="#00FFFF"
-            android:paddingVertical="14dp"
-            android:text="KELUAR / LOGOUT"
-            android:textColor="#0A0A1F"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:cornerRadius="12dp" />
+            android:layout_height="300sp"
+            android:layout_marginTop="0sp" />
+
+        <!-- Tombol Logout (Gaya Neon Cyan) -->
 
     </LinearLayout>
 </ScrollView>
