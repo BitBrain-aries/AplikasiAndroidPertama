@@ -18,12 +18,13 @@
         android:paddingTop="10dp">
 
         <!-- Judul Dashboard -->
+
         <TextView
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
             android:gravity="center"
             android:text="DASHBOARD"
             android:textColor="#00FFFF"
@@ -37,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="35dp"
             android:layout_marginEnd="35dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/neon_input_background"
             android:orientation="vertical"
             android:paddingHorizontal="16dp"
@@ -70,7 +71,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="35dp"
             android:layout_marginEnd="35dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/neon_input_background"
             android:orientation="vertical"
             android:paddingHorizontal="16dp"
@@ -103,7 +104,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="35dp"
             android:layout_marginEnd="35dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/neon_input_background"
             android:orientation="vertical"
             android:paddingHorizontal="16dp"
@@ -131,6 +132,7 @@
 
         <!-- Card Data: Email -->
         <!-- Menggunakan ID tvEmail dan textView10, dimasukkan dalam card -->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -163,6 +165,20 @@
 
 
         </LinearLayout>
+
+        <Button
+            android:id="@+id/buttonSubmit2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="35dp"
+            android:layout_marginEnd="35dp"
+            android:backgroundTint="#00FFFF"
+            android:paddingVertical="14dp"
+            android:text="ABSEN"
+            android:textColor="#0A0A1F"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:cornerRadius="12dp" />
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragmentContainerView"
