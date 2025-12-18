@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
+import com.example.pertama.AbsenDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -20,6 +21,9 @@ class DashboardActivity : AppCompatActivity() {
     private lateinit var tvUsername: TextView
     private lateinit var tvEmail: TextView
 
+    public var id : Int = 0
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -27,6 +31,10 @@ class DashboardActivity : AppCompatActivity() {
 
         val db = AbsenDatabase.getDatabase(this)
         userDao = db.userDao()
+
+
+        id = intent.getIntExtra("USER_ID", 0)
+
 
         // Mengambil ID yang dikirim dari Intent
         val userId = intent.getIntExtra("USER_ID", 0)

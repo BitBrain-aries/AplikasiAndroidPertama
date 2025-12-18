@@ -7,7 +7,6 @@ import androidx.room.Insert
 interface AttendanceDao {
 
     @Insert
-    suspend fun interAttendance(attendance: AttendanceEntity): Long
-
+    suspend fun insertAttendance(attendance: AttendanceEntity) : Long
 
 }
